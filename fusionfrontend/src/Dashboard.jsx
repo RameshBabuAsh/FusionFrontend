@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import rameshPic from "./rameshPic.jpg";
 
 const modules = [
@@ -48,6 +48,14 @@ export default function Dashboard() {
   const [notificationSearchQuery, setNotificationSearchQuery] = useState("");
   const [showNotifications, setShowNotifications] = useState(false);
   const [designation, setDesignation] = useState("Student");
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem("darkMode") === "true"
+  );
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", darkMode);
+    localStorage.setItem("darkMode", darkMode);
+  }, [darkMode]);
 
   const filteredNotifications = notifications.filter(
     (notification) =>
@@ -63,23 +71,29 @@ export default function Dashboard() {
     setSidebarOpen(!sidebarOpen);
   };
 
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className={`flex h-screen ${darkMode ? "bg-gray-900" : "bg-gray-100"}`}>
       {/* Sidebar */}
       <div
-        className={`bg-white fixed z-30 inset-y-0 left-0 w-64 shadow-lg transform ${
+        className={`bg-white dark:bg-gray-700 fixed z-30 inset-y-0 left-0 w-64 shadow-lg transform ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-in-out`}
       >
         <div className="p-4">
-          <h2 className="text-2xl font-bold text-gray-800">Fusion</h2>
+          <h2 className={`text-2xl font-bold ${darkMode ? "text-white" : "text-gray-800"}`}>
+            Fusion
+          </h2>
         </div>
         <nav className="mt-8">
           {modules.map((module, index) => (
             <a
               key={index}
               href="/"
-              className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-200 transition-colors duration-200"
+              className={`flex items-center px-4 py-3 ${darkMode ? "text-gray-300 hover:bg-gray-700" : "text-gray-700 hover:bg-gray-200"} transition-colors duration-200`}
               onClick={(e) => {
                 e.preventDefault();
                 if (window.innerWidth < 1024) {
@@ -101,29 +115,29 @@ export default function Dashboard() {
         }`}
       >
         {/* Header */}
-        <header className="bg-white shadow-sm z-20">
+        <header className={`bg-white dark:bg-gray-800 shadow-sm z-20`}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
             <div className="flex items-center">
-              <button className="lg mr-2 p-2" onClick={toggleSidebar}>
+              <button className={`lg mr-2 p-2 ${darkMode ? "text-white" : "text-gray-900"}`} onClick={toggleSidebar}>
                 {sidebarOpen ? "✕" : "☰"}
               </button>
-              <h1 className="text-2xl font-semibold text-gray-900">
+              <h1 className={`text-2xl font-semibold ${darkMode ? "text-white" : "text-gray-900"}`}>
                 Dashboard
               </h1>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center xs:space-x-2 sm:space-x-2 md:space-x-4">
               <div className="relative">
                 <select
                   value={designation}
                   onChange={(e) => setDesignation(e.target.value)}
-                  className="appearance-none bg-white border border-gray-300 rounded-md py-2 pl-3 pr-8 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className={`appearance-none bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md py-2 pl-3 pr-8 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${darkMode ? "text-white" : "text-gray-900"}`}
                 >
                   <option>Student</option>
                   <option>Faculty</option>
                   <option>Staff</option>
                   <option>Admin</option>
                 </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-400">
                   <svg
                     className="fill-current h-4 w-4"
                     xmlns="http://www.w3.org/2000/svg"
@@ -139,34 +153,18 @@ export default function Dashboard() {
               >
                 🔔
               </button>
+              <button
+                className="p-2"
+                onClick={toggleDarkMode}
+              >
+                {darkMode ? "🌞" : "🌜"}
+              </button>
             </div>
           </div>
         </header>
 
         {/* User Card */}
-        {/* <div className="bg-ash shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-5 lg:px-5 py-3 flex items-center">
-            <div className="flex items-center">
-              <img
-                className="h-16 w-16 rounded-full object-cover"
-                src={rameshPic}
-                alt="User avatar"
-              />
-              <div className="ml-4">
-                <h2 className="text-xl font-semibold text-gray-900">
-                  RAMESH BABU
-                </h2>
-                <p className="text-sm text-gray-500">
-                  22BCS208 (B Tech CSE 2022)
-                </p>
-              </div>
-            </div>
-          </div>
-        </div> */}
-
-
-        {/* User Card */}
-        <div className="bg-ash shadow-sm mt-4">
+        <div className={`bg-ash shadow-sm mt-4`}>
           <div className="max-w-7xl mx-auto px-4 sm:px-5 lg:px-5 py-3 flex items-center">
             <div className="flex items-center">
               <img
@@ -175,10 +173,10 @@ export default function Dashboard() {
                 alt="User avatar"
               />
               <div className="ml-4">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2 className={`text-xl font-semibold ${darkMode ? "text-white" : "text-gray-900"}`}>
                   RAMESH BABU
                 </h2>
-                <p className="text-sm text-gray-500">
+                <p className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-500"}`}>
                   22BCS208 (B Tech CSE 2022)
                 </p>
               </div>
@@ -186,60 +184,63 @@ export default function Dashboard() {
           </div>
         </div>
 
-
-
         {/* Notifications Panel */}
         {showNotifications && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-40 flex justify-end">
-            <div className="bg-white w-full max-w-md h-full overflow-y-auto">
-              <div className="p-4 border-b flex justify-between items-center">
-                <h2 className="text-xl font-semibold">Notifications</h2>
-                <button
-                  className="p-2"
-                  onClick={() => setShowNotifications(false)}
-                >
-                  ✕
-                </button>
-              </div>
+          <div className={`fixed inset-0 ${darkMode ? "bg-gray-900" : "bg-black"} ${darkMode ? "bg-opacity-80" : "bg-opacity-50"} z-40 flex justify-end`}>
+            <div className={`bg-white dark:bg-gray-800 w-full max-w-md h-full overflow-y-auto`}>
               <div className="p-4">
+                <h2 className={`text-2xl font-semibold ${darkMode ? "text-white" : "text-gray-900"}`}>
+                  Notifications
+                </h2>
                 <input
-                  type="search"
+                  type="text"
                   placeholder="Search notifications..."
                   value={notificationSearchQuery}
                   onChange={(e) => setNotificationSearchQuery(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className={`w-full mt-2 p-2 border rounded-md ${darkMode ? "bg-gray-700 text-white border-gray-600" : "bg-white text-gray-900 border-gray-300"}`}
                 />
-              </div>
-              <div className="divide-y">
-                {filteredNotifications.map((notification) => (
-                  <div key={notification.id} className="p-4 hover:bg-gray-50">
-                    <h3 className="font-semibold text-sm text-blue-600">
-                      {notification.module}
-                    </h3>
-                    <p className="mt-1 text-sm text-gray-900">
-                      {notification.message}
+                <ul className="mt-4">
+                  {filteredNotifications.length ? (
+                    filteredNotifications.map((notification) => (
+                      <li
+                        key={notification.id}
+                        className={`p-2 border-b ${darkMode ? "border-gray-600 text-gray-300" : "border-gray-200 text-gray-700"}`}
+                      >
+                        <h3 className={`font-semibold ${darkMode ? "text-white" : "text-gray-800"}`}>
+                          {notification.module}
+                        </h3>
+                        <p>{notification.message}</p>
+                        <p className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-500"}`}>{notification.date}</p>
+                      </li>
+                    ))
+                  ) : (
+                    <p className={`p-2 ${darkMode ? "text-gray-400" : "text-gray-500"}`}>
+                      No notifications found.
                     </p>
-                    <p className="mt-1 text-xs text-gray-500">
-                      {notification.date}
-                    </p>
-                  </div>
-                ))}
+                  )}
+                </ul>
               </div>
+              <button
+                className={`absolute top-4 right-4 p-2 ${darkMode ? "text-white" : "text-gray-900"}`}
+                onClick={() => setShowNotifications(false)}
+              >
+                ✕
+              </button>
             </div>
           </div>
         )}
 
         {/* Module Grid */}
-        <main className="flex-1 overflow-y-auto bg-gray-100 p-4">
+        <main className={`flex-1 p-4 ${darkMode ? "bg-gray-900" : "bg-gray-100"}`}>
           <div className="max-w-7xl mx-auto grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {modules.map((module, index) => (
               <div
                 key={index}
-                className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden"
+                className={`rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden ${darkMode ? "bg-gray-800 text-gray-200" : "bg-white text-gray-900"}`}
               >
                 <div className="p-6 flex flex-col items-center text-center">
                   <span className="text-4xl mb-2">{module.icon}</span>
-                  <h3 className="text-lg font-medium text-gray-900">
+                  <h3 className={`text-lg font-medium ${darkMode ? "text-gray-200" : "text-gray-900"}`}>
                     {module.name}
                   </h3>
                 </div>
