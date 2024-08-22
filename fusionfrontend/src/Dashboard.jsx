@@ -69,7 +69,7 @@ export default function Dashboard() {
       <div
         className={`bg-white fixed z-30 inset-y-0 left-0 w-64 shadow-lg transform ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-300 ease-in-out lg:translate-x-0`}
+        } transition-transform duration-300 ease-in-out`}
       >
         <div className="p-4">
           <h2 className="text-2xl font-bold text-gray-800">Fusion</h2>
@@ -98,7 +98,7 @@ export default function Dashboard() {
       <div
         className={`flex-1 flex flex-col transition-all duration-300 ease-in-out ${
           sidebarOpen ? "ml-64" : "ml-0"
-        } lg:ml-64`}
+        }`}
       >
         {/* Header */}
         <header className="bg-white shadow-sm z-20">
@@ -144,11 +144,11 @@ export default function Dashboard() {
         </header>
 
         {/* User Card */}
-        <div className="bg-white shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-center">
+        <div className="bg-ash shadow-sm">
+          <div className="max-w-7xl mx-auto px-4 sm:px-5 lg:px-5 py-1 flex items-left">
             <div className="flex flex-col items-center">
               <img
-                className="h-24 w-24 rounded-full object-cover mb-4"
+                className="h-12 w-12 rounded-full object-cover mb-4"
                 src={rameshPic}
                 alt="User avatar"
               />
@@ -156,7 +156,7 @@ export default function Dashboard() {
                 RAMESH BABU
               </h2>
               <p className="text-sm text-gray-500 text-center">
-                22BCS208 (B Tech CSE 2022)
+              22BCS208 (B Tech CSE 2022)
               </p>
             </div>
           </div>
@@ -164,7 +164,7 @@ export default function Dashboard() {
 
         {/* Notifications Panel */}
         {showNotifications && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-40 flex justify-end ">
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-40 flex justify-end">
             <div className="bg-white w-full max-w-md h-full overflow-y-auto">
               <div className="p-4 border-b flex justify-between items-center">
                 <h2 className="text-xl font-semibold">Notifications</h2>
@@ -212,7 +212,7 @@ export default function Dashboard() {
                 className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden"
               >
                 <div className="p-6 flex flex-col items-center text-center">
-                  <span className="text-4xl mb-4">{module.icon}</span>
+                  <span className="text-4xl mb-2">{module.icon}</span>
                   <h3 className="text-lg font-medium text-gray-900">
                     {module.name}
                   </h3>
