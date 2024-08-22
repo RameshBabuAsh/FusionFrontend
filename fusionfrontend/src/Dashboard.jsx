@@ -144,23 +144,49 @@ export default function Dashboard() {
         </header>
 
         {/* User Card */}
-        <div className="bg-ash shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-5 lg:px-5 py-1 flex items-left">
-            <div className="flex flex-col items-center">
+        {/* <div className="bg-ash shadow-sm">
+          <div className="max-w-7xl mx-auto px-4 sm:px-5 lg:px-5 py-3 flex items-center">
+            <div className="flex items-center">
               <img
-                className="h-12 w-12 rounded-full object-cover mb-4"
+                className="h-16 w-16 rounded-full object-cover"
                 src={rameshPic}
                 alt="User avatar"
               />
-              <h2 className="text-xl font-semibold text-gray-900 text-center">
-                RAMESH BABU
-              </h2>
-              <p className="text-sm text-gray-500 text-center">
-              22BCS208 (B Tech CSE 2022)
-              </p>
+              <div className="ml-4">
+                <h2 className="text-xl font-semibold text-gray-900">
+                  RAMESH BABU
+                </h2>
+                <p className="text-sm text-gray-500">
+                  22BCS208 (B Tech CSE 2022)
+                </p>
+              </div>
+            </div>
+          </div>
+        </div> */}
+
+
+        {/* User Card */}
+        <div className="bg-ash shadow-sm mt-4">
+          <div className="max-w-7xl mx-auto px-4 sm:px-5 lg:px-5 py-3 flex items-center">
+            <div className="flex items-center">
+              <img
+                className="h-16 w-16 rounded-lg object-cover"
+                src={rameshPic}
+                alt="User avatar"
+              />
+              <div className="ml-4">
+                <h2 className="text-xl font-semibold text-gray-900">
+                  RAMESH BABU
+                </h2>
+                <p className="text-sm text-gray-500">
+                  22BCS208 (B Tech CSE 2022)
+                </p>
+              </div>
             </div>
           </div>
         </div>
+
+
 
         {/* Notifications Panel */}
         {showNotifications && (
