@@ -2,17 +2,72 @@ import { useState, useEffect } from "react";
 import rameshPic from "./rameshPic.jpg";
 
 const modules = [
-  { name: "Academics", icon: "🎓" },
-  { name: "Programme and Curriculum", icon: "📚" },
-  { name: "Mess Management", icon: "🍽️" },
-  { name: "Visitor's Hostel", icon: "🏨" },
-  { name: "Healthcare Center", icon: "🏥" },
-  { name: "Scholarship Portal", icon: "💰" },
-  { name: "Complaint System", icon: "📝" },
-  { name: "Placement Cell", icon: "💼" },
-  { name: "Department", icon: "🏛️" },
-  { name: "Gymkhana", icon: "🏋️" },
-  { name: "Hostel Management", icon: "🏠" },
+  {
+    name: "Academics",
+    icon: "🎓",
+    subsections: ["Courses", "Exams", "Timetable"],
+    recent: true,
+  },
+  {
+    name: "Programme and Curriculum",
+    icon: "📚",
+    subsections: ["Curriculum", "Courses", "Electives"],
+    recent: false,
+  },
+  {
+    name: "Mess Management",
+    icon: "🍽️",
+    subsections: ["Menu", "Feedback", "Payment"],
+    recent: true,
+  },
+  {
+    name: "Visitor's Hostel",
+    icon: "🏨",
+    subsections: ["Booking", "Feedback", "Facilities"],
+    recent: false,
+  },
+  {
+    name: "Healthcare Center",
+    icon: "🏥",
+    subsections: ["Appointments", "Doctors", "Facilities"],
+    recent: true,
+  },
+  {
+    name: "Scholarship Portal",
+    icon: "💰",
+    subsections: ["Applications", "Status", "Guidelines"],
+    recent: false,
+  },
+  {
+    name: "Complaint System",
+    icon: "📝",
+    subsections: ["Register Complaint", "Track Complaint", "Feedback"],
+    recent: false,
+  },
+  {
+    name: "Placement Cell",
+    icon: "💼",
+    subsections: ["Job Postings", "Internships", "Career Counseling"],
+    recent: false,
+  },
+  {
+    name: "Department",
+    icon: "🏛️",
+    subsections: ["Faculty", "Research", "Events"],
+    recent: false,
+  },
+  {
+    name: "Gymkhana",
+    icon: "🏋️",
+    subsections: ["Activities", "Clubs", "Events"],
+    recent: false,
+  },
+  {
+    name: "Hostel Management",
+    icon: "🏠",
+    subsections: ["Room Allocation", "Rules", "Maintenance"],
+    recent: false,
+  },
 ];
 
 const notifications = [
@@ -43,6 +98,25 @@ const notifications = [
   },
 ];
 
+const announcements = [
+  {
+    id: 1,
+    message:
+      "New policy updates have been made in the hostel management system.",
+    date: "1 day ago",
+  },
+  {
+    id: 2,
+    message: "Annual sports event registration is now open.",
+    date: "5 days ago",
+  },
+  {
+    id: 3,
+    message: "Library will be closed for maintenance on the coming weekend.",
+    date: "2 weeks ago",
+  },
+];
+
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [notificationSearchQuery, setNotificationSearchQuery] = useState("");
@@ -51,6 +125,13 @@ export default function Dashboard() {
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("darkMode") === "true"
   );
+  const [showUserDetails, setShowUserDetails] = useState(false);
+  const [activeTab, setActiveTab] = useState("notifications");
+  // const [recentModules, setRecentModules] = useState([
+  //   modules[0], // Academics
+  //   modules[2], // Mess Management
+  // ]);
+  const [expandedModule, setExpandedModule] = useState(null);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
@@ -75,35 +156,71 @@ export default function Dashboard() {
     setDarkMode(!darkMode);
   };
 
+  const handleModuleClick = (index) => {
+    if (expandedModule === index) {
+      setExpandedModule(null); // Collapse if already expanded
+    } else {
+      setExpandedModule(index); // Expand the clicked module
+    }
+  };
+
   return (
-    <div className={`flex h-screen ${darkMode ? "bg-gray-900" : "bg-gray-100"}`}>
+    <div
+      className={`flex h-screen ${
+        darkMode ? "bg-gray-900" : "bg-gray-100"
+      } scrollbar-hide`}
+    >
       {/* Sidebar */}
       <div
         className={`bg-white dark:bg-gray-700 fixed z-30 inset-y-0 left-0 w-64 shadow-lg transform ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-300 ease-in-out`}
+        } transition-transform duration-300 ease-in-out overflow-y-auto scrollbar-hide`}
       >
         <div className="p-4">
-          <h2 className={`text-2xl font-bold ${darkMode ? "text-white" : "text-gray-800"}`}>
+          <h2
+            className={`text-2xl font-bold ${
+              darkMode ? "text-white" : "text-gray-800"
+            }`}
+          >
             Fusion
           </h2>
         </div>
         <nav className="mt-8">
           {modules.map((module, index) => (
-            <a
-              key={index}
-              href="/"
-              className={`flex items-center px-4 py-3 ${darkMode ? "text-gray-300 hover:bg-gray-700" : "text-gray-700 hover:bg-gray-200"} transition-colors duration-200`}
-              onClick={(e) => {
-                e.preventDefault();
-                if (window.innerWidth < 1024) {
-                  toggleSidebar();
-                }
-              }}
-            >
-              <span className="text-2xl mr-3">{module.icon}</span>
-              {module.name}
-            </a>
+            <div key={index}>
+              <div
+                className={`flex items-center justify-between px-4 py-3 cursor-pointer ${
+                  darkMode
+                    ? "text-gray-300 hover:bg-gray-800"
+                    : "text-gray-700 hover:bg-gray-200"
+                } transition-colors duration-200`}
+                onClick={() => handleModuleClick(index)}
+              >
+                <div className="flex items-center">
+                  <span className="text-2xl mr-3">{module.icon}</span>
+                  {module.name}
+                </div>
+                {/* <span>{expandedModule === index ? "⌄" : "⌄"}</span> */}
+              </div>
+              {expandedModule === index && (
+                <div className="pl-8">
+                  {module.subsections.map((sub, subIndex) => (
+                    <a
+                      key={subIndex}
+                      href="/"
+                      className={`block px-4 py-2 ${
+                        darkMode
+                          ? "text-gray-300 hover:bg-gray-700"
+                          : "text-gray-700 hover:bg-gray-200"
+                      }`}
+                      onClick={(e) => e.preventDefault()}
+                    >
+                      {sub}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
           ))}
         </nav>
       </div>
@@ -118,134 +235,264 @@ export default function Dashboard() {
         <header className={`bg-white dark:bg-gray-800 shadow-sm z-20`}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
             <div className="flex items-center">
-              <button className={`lg mr-2 p-2 ${darkMode ? "text-white" : "text-gray-900"}`} onClick={toggleSidebar}>
+              <button
+                className={`lg mr-2 p-2 ${
+                  darkMode ? "text-white" : "text-gray-900"
+                }`}
+                onClick={toggleSidebar}
+              >
                 {sidebarOpen ? "✕" : "☰"}
               </button>
-              <h1 className={`text-2xl font-semibold ${darkMode ? "text-white" : "text-gray-900"}`}>
+              <h1
+                className={`text-2xl font-semibold ${
+                  darkMode ? "text-white" : "text-gray-900"
+                }`}
+              >
                 Dashboard
               </h1>
             </div>
-            <div className="flex items-center xs:space-x-2 sm:space-x-2 md:space-x-4">
-              <div className="relative">
-                <select
-                  value={designation}
-                  onChange={(e) => setDesignation(e.target.value)}
-                  className={`appearance-none bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md py-2 pl-3 pr-8 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${darkMode ? "text-white" : "text-gray-900"}`}
-                >
-                  <option>Student</option>
-                  <option>Faculty</option>
-                  <option>Staff</option>
-                  <option>Admin</option>
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-400">
-                  <svg
-                    className="fill-current h-4 w-4"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                  </svg>
-                </div>
+            <div className="flex items-center">
+              <div
+                className="relative"
+                onMouseEnter={() => setShowUserDetails(true)}
+                onMouseLeave={() => setShowUserDetails(false)}
+              >
+                <img
+                  className="h-10 w-10 rounded-full object-cover cursor-pointer"
+                  src={rameshPic}
+                  alt="User avatar"
+                />
+                {showUserDetails && (
+                  <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 z-50">
+                    <img
+                      className="h-16 w-16 rounded-lg object-cover"
+                      src={rameshPic}
+                      alt="User avatar"
+                    />
+                    <div className="mt-2">
+                      <h2
+                        className={`text-xl font-semibold ${
+                          darkMode ? "text-white" : "text-gray-900"
+                        }`}
+                      >
+                        RAMESH BABU
+                      </h2>
+                      <p
+                        className={`text-sm ${
+                          darkMode ? "text-gray-300" : "text-gray-700"
+                        }`}
+                      >
+                        {designation}
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
               <button
-                className="p-2"
+                className={`ml-4 p-2 ${
+                  darkMode ? "text-white" : "text-gray-900"
+                }`}
+                onClick={toggleDarkMode}
+              >
+                {darkMode ? "🌞" : "🌙"}
+              </button>
+              <button
+                className={`ml-4 p-2 ${
+                  darkMode ? "text-white" : "text-gray-900"
+                }`}
                 onClick={() => setShowNotifications(!showNotifications)}
               >
                 🔔
-              </button>
-              <button
-                className="p-2"
-                onClick={toggleDarkMode}
-              >
-                {darkMode ? "🌞" : "🌜"}
               </button>
             </div>
           </div>
         </header>
 
-        {/* User Card */}
-        <div className={`bg-ash shadow-sm mt-4`}>
-          <div className="max-w-7xl mx-auto px-4 sm:px-5 lg:px-5 py-3 flex items-center">
-            <div className="flex items-center">
-              <img
-                className="h-16 w-16 rounded-lg object-cover"
-                src={rameshPic}
-                alt="User avatar"
-              />
-              <div className="ml-4">
-                <h2 className={`text-xl font-semibold ${darkMode ? "text-white" : "text-gray-900"}`}>
-                  RAMESH BABU
-                </h2>
-                <p className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-500"}`}>
-                  22BCS208 (B Tech CSE 2022)
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Notifications Panel */}
+        {/* Notifications Drawer */}
         {showNotifications && (
-          <div className={`fixed inset-0 ${darkMode ? "bg-gray-900" : "bg-black"} ${darkMode ? "bg-opacity-80" : "bg-opacity-50"} z-40 flex justify-end`}>
-            <div className={`bg-white dark:bg-gray-800 w-full max-w-md h-full overflow-y-auto`}>
+          <div
+            className={`fixed inset-0 ${
+              darkMode ? "bg-gray-900" : "bg-black"
+            } ${
+              darkMode ? "bg-opacity-80" : "bg-opacity-50"
+            } z-40 flex justify-end`}
+          >
+            <div
+              className={`w-full md:w-1/3 lg:w-1/4 bg-white dark:bg-gray-800 h-full overflow-y-auto shadow-lg`}
+            >
               <div className="p-4">
-                <h2 className={`text-2xl font-semibold ${darkMode ? "text-white" : "text-gray-900"}`}>
-                  Notifications
-                </h2>
-                <input
-                  type="text"
-                  placeholder="Search notifications..."
-                  value={notificationSearchQuery}
-                  onChange={(e) => setNotificationSearchQuery(e.target.value)}
-                  className={`w-full mt-2 p-2 border rounded-md ${darkMode ? "bg-gray-700 text-white border-gray-600" : "bg-white text-gray-900 border-gray-300"}`}
-                />
-                <ul className="mt-4">
-                  {filteredNotifications.length ? (
-                    filteredNotifications.map((notification) => (
-                      <li
-                        key={notification.id}
-                        className={`p-2 border-b ${darkMode ? "border-gray-600 text-gray-300" : "border-gray-200 text-gray-700"}`}
-                      >
-                        <h3 className={`font-semibold ${darkMode ? "text-white" : "text-gray-800"}`}>
-                          {notification.module}
-                        </h3>
-                        <p>{notification.message}</p>
-                        <p className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-500"}`}>{notification.date}</p>
-                      </li>
-                    ))
+                <div className="flex justify-between items-center">
+                  <h2
+                    className={`text-xl font-semibold ${
+                      darkMode ? "text-white" : "text-gray-900"
+                    }`}
+                  >
+                    Notifications & Announcements
+                  </h2>
+                  <button
+                    className="text-lg"
+                    onClick={() => setShowNotifications(false)}
+                  >
+                    ✕
+                  </button>
+                </div>
+                <div className="mt-4">
+                  <input
+                    type="text"
+                    placeholder="Search..."
+                    value={notificationSearchQuery}
+                    onChange={(e) => setNotificationSearchQuery(e.target.value)}
+                    className={`w-full px-3 py-2 rounded ${
+                      darkMode
+                        ? "bg-gray-700 text-white"
+                        : "bg-gray-200 text-black"
+                    } focus:outline-none`}
+                  />
+                </div>
+                <div className="mt-4">
+                  <div className="flex space-x-2">
+                    <button
+                      className={`px-4 py-2 rounded-md ${
+                        activeTab === "notifications"
+                          ? "bg-blue-500 text-white"
+                          : "bg-gray-300 dark:bg-gray-600 text-black dark:text-white"
+                      }`}
+                      onClick={() => setActiveTab("notifications")}
+                    >
+                      Notifications
+                    </button>
+                    <button
+                      className={`px-4 py-2 rounded-md ${
+                        activeTab === "announcements"
+                          ? "bg-blue-500 text-white"
+                          : "bg-gray-300 dark:bg-gray-600 text-black dark:text-white"
+                      }`}
+                      onClick={() => setActiveTab("announcements")}
+                    >
+                      Announcements
+                    </button>
+                  </div>
+                </div>
+                <div className="mt-4">
+                  {activeTab === "notifications" &&
+                  filteredNotifications.length > 0 ? (
+                    <ul>
+                      {filteredNotifications.map((notification) => (
+                        <li
+                          key={notification.id}
+                          className={`p-4 mb-2 rounded-md ${
+                            darkMode
+                              ? "bg-gray-700 text-white"
+                              : "bg-gray-200 text-black"
+                          }`}
+                        >
+                          <h3 className="font-bold">{notification.module}</h3>
+                          <p>{notification.message}</p>
+                          <span className="text-xs">{notification.date}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : activeTab === "announcements" &&
+                    announcements.length > 0 ? (
+                    <ul>
+                      {announcements.map((announcement) => (
+                        <li
+                          key={announcement.id}
+                          className={`p-4 mb-2 rounded-md ${
+                            darkMode
+                              ? "bg-gray-700 text-white"
+                              : "bg-gray-200 text-black"
+                          }`}
+                        >
+                          <p>{announcement.message}</p>
+                          <span className="text-xs">{announcement.date}</span>
+                        </li>
+                      ))}
+                    </ul>
                   ) : (
-                    <p className={`p-2 ${darkMode ? "text-gray-400" : "text-gray-500"}`}>
-                      No notifications found.
-                    </p>
+                    <p className="text-center mt-4">No items found.</p>
                   )}
-                </ul>
+                </div>
               </div>
-              <button
-                className={`absolute top-4 right-4 p-2 ${darkMode ? "text-white" : "text-gray-900"}`}
-                onClick={() => setShowNotifications(false)}
-              >
-                ✕
-              </button>
             </div>
           </div>
         )}
-
-        {/* Module Grid */}
-        <main className={`flex-1 p-4 ${darkMode ? "bg-gray-900" : "bg-gray-100"}`}>
-          <div className="max-w-7xl mx-auto grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {modules.map((module, index) => (
-              <div
-                key={index}
-                className={`rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden ${darkMode ? "bg-gray-800 text-gray-200" : "bg-white text-gray-900"}`}
+        {/* Main Content */}
+        <main
+          className={`flex-1 p-4 ${darkMode ? "bg-gray-900" : "bg-gray-100"}`}
+        >
+          <div className="max-w-7xl mx-auto">
+            {/* Recent Modules Section */}
+            <div className="mb-8">
+              <h2
+                className={`text-xl font-semibold ${
+                  darkMode ? "text-white" : "text-gray-900"
+                } mb-4`}
               >
-                <div className="p-6 flex flex-col items-center text-center">
-                  <span className="text-4xl mb-2">{module.icon}</span>
-                  <h3 className={`text-lg font-medium ${darkMode ? "text-gray-200" : "text-gray-900"}`}>
-                    {module.name}
-                  </h3>
-                </div>
+                Recent Modules
+              </h2>
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {modules
+                  .filter((module) => module.recent)
+                  .map((module, index) => (
+                    <div
+                      key={index}
+                      className={`rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden ${
+                        darkMode
+                          ? "bg-gray-800 text-gray-200"
+                          : "bg-white text-gray-900"
+                      }`}
+                    >
+                      <div className="p-6 flex flex-col items-center text-center">
+                        <span className="text-4xl mb-2">{module.icon}</span>
+                        <h3
+                          className={`text-lg font-medium ${
+                            darkMode ? "text-gray-200" : "text-gray-900"
+                          }`}
+                        >
+                          {module.name}
+                        </h3>
+                      </div>
+                    </div>
+                  ))}
               </div>
-            ))}
+            </div>
+
+            {/* Other Modules Section */}
+            <div>
+              <h2
+                className={`text-xl font-semibold ${
+                  darkMode ? "text-white" : "text-gray-900"
+                } mb-4`}
+              >
+                Other Modules
+              </h2>
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {modules
+                  .filter((module) => !module.recent)
+                  .map((module, index) => (
+                    <div
+                      key={index}
+                      className={`rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden ${
+                        darkMode
+                          ? "bg-gray-800 text-gray-200"
+                          : "bg-white text-gray-900"
+                      }`}
+                    >
+                      <div className="p-6 flex flex-col items-center text-center">
+                        <span className="text-4xl mb-2">{module.icon}</span>
+                        <h3
+                          className={`text-lg font-medium ${
+                            darkMode ? "text-gray-200" : "text-gray-900"
+                          }`}
+                        >
+                          {module.name}
+                        </h3>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </div>
           </div>
         </main>
       </div>
