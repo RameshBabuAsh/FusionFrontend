@@ -174,7 +174,7 @@ export default function Dashboard() {
       <div
         className={`bg-white dark:bg-gray-700 fixed z-30 inset-y-0 left-0 w-64 shadow-lg transform ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-300 ease-in-out overflow-y-auto scrollbar-hide`}
+        } transition-transform duration-300 ease-in-out overflow-y-auto custom-scrollbar`}
       >
         <div className="p-4">
           <h2
@@ -254,7 +254,14 @@ export default function Dashboard() {
                 Dashboard
               </h1>
             </div>
+            <div className="flex items-center gap-2.5">
             <div className="flex items-center">
+              <select>
+                <option>Student</option>
+                <option>Faculty</option>
+                <option>Admin</option>
+              </select>
+            </div>
               <div
                 className="relative"
                 onMouseEnter={() => setShowUserDetails(true)}
@@ -266,7 +273,7 @@ export default function Dashboard() {
                   alt="User avatar"
                 />
                 {showUserDetails && (
-                  <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 z-50">
+                  <div className="absolute right-0 mt-2 w-64 bg-emerald-100 dark:bg-gray-800 rounded-lg shadow-lg p-4 z-50 flex items-center flex-col">
                     <img
                       className="h-16 w-16 rounded-lg object-cover"
                       src={rameshPic}
