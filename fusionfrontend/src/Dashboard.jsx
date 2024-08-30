@@ -120,6 +120,7 @@ const announcements = [
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [notificationSearchQuery, setNotificationSearchQuery] = useState("");
+  const [announcementSearchQuery, setAnnouncementSearchQuery] = useState("");
   const [showNotifications, setShowNotifications] = useState(false);
   const [designation, setDesignation] = useState("Student");
   const [darkMode, setDarkMode] = useState(
@@ -145,7 +146,20 @@ export default function Dashboard() {
         .includes(notificationSearchQuery.toLowerCase()) ||
       notification.module
         .toLowerCase()
+        .includes(notificationSearchQuery.toLowerCase()) ||
+      notification.date
+        .toLowerCase()
         .includes(notificationSearchQuery.toLowerCase())
+  );
+
+  const filteredAnnouncements = announcements.filter(
+    (announcement) =>
+      announcement.message
+        .toLowerCase()
+        .includes(announcementSearchQuery.toLowerCase()) ||
+      announcement.date
+        .toLowerCase()
+        .includes(announcementSearchQuery.toLowerCase())
   );
 
   const toggleSidebar = () => {
@@ -186,45 +200,48 @@ export default function Dashboard() {
           </h2>
         </div>
         <nav className="mt-8">
-        {modules.map((module, index) => (
-      <div key={index}>
-        <div
-          className={`flex items-center justify-between px-4 py-3 cursor-pointer ${
-            darkMode
-              ? "text-gray-300 hover:bg-gray-800"
-              : "text-gray-700 hover:bg-gray-200"
-          } transition-colors duration-500`}
-          onClick={() => handleModuleClick(index)}
-        >
-          <div className="flex items-center">
-            <span className="text-2xl mr-3">{module.icon}</span>
-            {module.name}
-          </div>
-        </div>
-        <div
-          className={`pl-8 overflow-hidden transition-all duration-700 ease-in-out`}
-          style={{
-            height: expandedModule === index ? `${module.subsections.length * 40}px` : "0px",
-            opacity: expandedModule === index ? 1 : 0,
-          }}
-        >
-          {module.subsections.map((sub, subIndex) => (
-            <a
-              key={subIndex}
-              href="/"
-              className={`block px-9 py-2 ${
-                darkMode
-                  ? "text-gray-300 hover:bg-gray-700"
-                  : "text-gray-700 hover:bg-gray-200"
-              }`}
-              onClick={(e) => e.preventDefault()}
-            >
-              {sub}
-            </a>
+          {modules.map((module, index) => (
+            <div key={index}>
+              <div
+                className={`flex items-center justify-between px-4 py-3 cursor-pointer ${
+                  darkMode
+                    ? "text-gray-300 hover:bg-gray-800"
+                    : "text-gray-700 hover:bg-gray-200"
+                } transition-colors duration-500`}
+                onClick={() => handleModuleClick(index)}
+              >
+                <div className="flex items-center">
+                  <span className="text-2xl mr-3">{module.icon}</span>
+                  {module.name}
+                </div>
+              </div>
+              <div
+                className={`pl-8 overflow-hidden transition-all duration-700 ease-in-out`}
+                style={{
+                  height:
+                    expandedModule === index
+                      ? `${module.subsections.length * 40}px`
+                      : "0px",
+                  opacity: expandedModule === index ? 1 : 0,
+                }}
+              >
+                {module.subsections.map((sub, subIndex) => (
+                  <a
+                    key={subIndex}
+                    href="/"
+                    className={`block px-9 py-2 ${
+                      darkMode
+                        ? "text-gray-300 hover:bg-gray-700"
+                        : "text-gray-700 hover:bg-gray-200"
+                    }`}
+                    onClick={(e) => e.preventDefault()}
+                  >
+                    {sub}
+                  </a>
+                ))}
+              </div>
+            </div>
           ))}
-        </div>
-      </div>
-    ))}
         </nav>
       </div>
 
@@ -255,49 +272,49 @@ export default function Dashboard() {
               </h1>
             </div>
             <div className="flex items-center gap-2.5">
-            <div className="flex items-center">
-              <select className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 transition duration-150 ease-in-out text-gray-900 dark:text-gray-100">
-                <option>Student</option>
-                <option>Faculty</option>
-                <option>Admin</option>
-              </select>
-            </div>
-            <div
-              className="relative"
-              onMouseEnter={() => setShowUserDetails(true)}
-              onMouseLeave={() => setShowUserDetails(false)}
-            >
-              <img
-                className="h-10 w-10 rounded-full object-cover cursor-pointer"
-                src={rameshPic}
-                alt="User avatar"
-              />
-              {showUserDetails && (
-                <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 z-50 flex items-center flex-col">
-                  <img
-                    className="h-16 w-16 rounded-lg object-cover"
-                    src={rameshPic}
-                    alt="User avatar"
-                  />
-                  <div className="mt-2">
-                    <h2
-                      className={`text-xl font-semibold ${
-                        darkMode ? "text-white" : "text-gray-900"
-                      }`}
-                    >
-                      RAMESH BABU
-                    </h2>
-                    <p
-                      className={`text-sm ${
-                        darkMode ? "text-gray-300" : "text-gray-700"
-                      }`}
-                    >
-                      {designation}
-                    </p>
+              <div className="flex items-center">
+                <select className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 transition duration-150 ease-in-out text-gray-900 dark:text-gray-100">
+                  <option>Student</option>
+                  <option>Faculty</option>
+                  <option>Admin</option>
+                </select>
+              </div>
+              <div
+                className="relative"
+                onMouseEnter={() => setShowUserDetails(true)}
+                onMouseLeave={() => setShowUserDetails(false)}
+              >
+                <img
+                  className="h-10 w-10 rounded-full object-cover cursor-pointer"
+                  src={rameshPic}
+                  alt="User avatar"
+                />
+                {showUserDetails && (
+                  <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 z-50 flex items-center flex-col">
+                    <img
+                      className="h-16 w-16 rounded-lg object-cover"
+                      src={rameshPic}
+                      alt="User avatar"
+                    />
+                    <div className="mt-2">
+                      <h2
+                        className={`text-xl font-semibold ${
+                          darkMode ? "text-white" : "text-gray-900"
+                        }`}
+                      >
+                        RAMESH BABU
+                      </h2>
+                      <p
+                        className={`text-sm ${
+                          darkMode ? "text-gray-300" : "text-gray-700"
+                        }`}
+                      >
+                        {designation}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
+                )}
+              </div>
               <button
                 className={`ml-4 p-2 ${
                   darkMode ? "text-white" : "text-gray-900"
@@ -341,7 +358,11 @@ export default function Dashboard() {
                   </h2>
                   <button
                     className="text-lg"
-                    onClick={() => setShowNotifications(false)}
+                    onClick={() => {
+                      setShowNotifications(false);
+                      setNotificationSearchQuery("");
+                      setAnnouncementSearchQuery("");
+                  }}
                   >
                     ✕
                   </button>
@@ -350,8 +371,14 @@ export default function Dashboard() {
                   <input
                     type="text"
                     placeholder="Search..."
-                    value={notificationSearchQuery}
-                    onChange={(e) => setNotificationSearchQuery(e.target.value)}
+                    value={ (activeTab==="announcements") ?
+                      announcementSearchQuery :
+                      notificationSearchQuery }
+                    onChange={(e)=>(
+                      (activeTab==="announcements") ?
+                      setAnnouncementSearchQuery(e.target.value) :
+                      setNotificationSearchQuery(e.target.value)
+                    )}
                     className={`w-full px-3 py-2 rounded ${
                       darkMode
                         ? "bg-gray-700 text-white"
@@ -384,8 +411,8 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <div className="mt-4">
-                  {activeTab === "notifications" &&
-                  filteredNotifications.length > 0 ? (
+                  {(activeTab === "notifications" && filteredNotifications.length > 0 ) ? 
+                  (
                     <ul>
                       {filteredNotifications.map((notification) => (
                         <li
@@ -402,10 +429,11 @@ export default function Dashboard() {
                         </li>
                       ))}
                     </ul>
-                  ) : activeTab === "announcements" &&
-                    announcements.length > 0 ? (
+                  ) : 
+                  ( activeTab === "announcements" && announcements.length > 0 ) ? 
+                  (
                     <ul>
-                      {announcements.map((announcement) => (
+                      {filteredAnnouncements.map((announcement) => (
                         <li
                           key={announcement.id}
                           className={`p-4 mb-2 rounded-md ${
@@ -419,7 +447,8 @@ export default function Dashboard() {
                         </li>
                       ))}
                     </ul>
-                  ) : (
+                  ) :
+                  (
                     <p className="text-center mt-4">No items found.</p>
                   )}
                 </div>
