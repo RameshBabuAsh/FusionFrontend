@@ -120,6 +120,7 @@ const announcements = [
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [notificationSearchQuery, setNotificationSearchQuery] = useState("");
+  const [announcementSearchQuery, setAnnouncementSearchQuery] = useState("");
   const [showNotifications, setShowNotifications] = useState(false);
   const [designation, setDesignation] = useState("Student");
   const [darkMode, setDarkMode] = useState(
@@ -145,7 +146,20 @@ export default function Dashboard() {
         .includes(notificationSearchQuery.toLowerCase()) ||
       notification.module
         .toLowerCase()
+        .includes(notificationSearchQuery.toLowerCase()) ||
+      notification.date
+        .toLowerCase()
         .includes(notificationSearchQuery.toLowerCase())
+  );
+
+  const filteredAnnouncements = announcements.filter(
+    (announcement) =>
+      announcement.message
+        .toLowerCase()
+        .includes(announcementSearchQuery.toLowerCase()) ||
+      announcement.date
+        .toLowerCase()
+        .includes(announcementSearchQuery.toLowerCase())
   );
 
   const toggleSidebar = () => {
@@ -350,8 +364,12 @@ export default function Dashboard() {
                   <input
                     type="text"
                     placeholder="Search..."
-                    value={notificationSearchQuery}
-                    onChange={(e) => setNotificationSearchQuery(e.target.value)}
+                    value={notificationSearchQuery || announcementSearchQuery }
+                    onChange={(e)=>(
+                      (activeTab==="announcements") ?
+                      setAnnouncementSearchQuery(e.target.value) :
+                      setNotificationSearchQuery(e.target.value)
+                    )}
                     className={`w-full px-3 py-2 rounded ${
                       darkMode
                         ? "bg-gray-700 text-white"
@@ -384,8 +402,8 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <div className="mt-4">
-                  {activeTab === "notifications" &&
-                  filteredNotifications.length > 0 ? (
+                {(activeTab === "notifications" && filteredNotifications.length > 0) ? 
+                  (
                     <ul>
                       {filteredNotifications.map((notification) => (
                         <li
@@ -402,10 +420,11 @@ export default function Dashboard() {
                         </li>
                       ))}
                     </ul>
-                  ) : activeTab === "announcements" &&
-                    announcements.length > 0 ? (
+                  ) : 
+                  ( activeTab === "announcements" && announcements.length > 0 ) ? 
+                  (
                     <ul>
-                      {announcements.map((announcement) => (
+                      {filteredAnnouncements.map((announcement) => (
                         <li
                           key={announcement.id}
                           className={`p-4 mb-2 rounded-md ${
@@ -419,7 +438,8 @@ export default function Dashboard() {
                         </li>
                       ))}
                     </ul>
-                  ) : (
+                  ) : 
+                  (
                     <p className="text-center mt-4">No items found.</p>
                   )}
                 </div>
