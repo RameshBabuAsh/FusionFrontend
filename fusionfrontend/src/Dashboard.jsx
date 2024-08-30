@@ -324,7 +324,11 @@ export default function Dashboard() {
                 className={`ml-4 p-2 ${
                   darkMode ? "text-white" : "text-gray-900"
                 }`}
-                onClick={() => setShowNotifications(!showNotifications)}
+                onClick={() => {
+                  setShowNotifications(!showNotifications);
+                  setNotificationSearchQuery("");
+                  setAnnouncementSearchQuery("");
+              }}
               >
                 🔔
               </button>
@@ -364,7 +368,9 @@ export default function Dashboard() {
                   <input
                     type="text"
                     placeholder="Search..."
-                    value={notificationSearchQuery || announcementSearchQuery }
+                    value={ (activeTab==="announcements") ?
+                      announcementSearchQuery :
+                      notificationSearchQuery }
                     onChange={(e)=>(
                       (activeTab==="announcements") ?
                       setAnnouncementSearchQuery(e.target.value) :
