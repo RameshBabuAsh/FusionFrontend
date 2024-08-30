@@ -357,12 +357,14 @@ export default function Dashboard() {
                     Notifications & Announcements
                   </h2>
                   <button
-                    className="text-lg"
+                    className={`text-lg ${
+                      darkMode ? "text-white" : "text-gray-900"
+                    }`}
                     onClick={() => {
                       setShowNotifications(false);
                       setNotificationSearchQuery("");
                       setAnnouncementSearchQuery("");
-                  }}
+                    }}
                   >
                     ✕
                   </button>
@@ -371,14 +373,16 @@ export default function Dashboard() {
                   <input
                     type="text"
                     placeholder="Search..."
-                    value={ (activeTab==="announcements") ?
-                      announcementSearchQuery :
-                      notificationSearchQuery }
-                    onChange={(e)=>(
-                      (activeTab==="announcements") ?
-                      setAnnouncementSearchQuery(e.target.value) :
-                      setNotificationSearchQuery(e.target.value)
-                    )}
+                    value={
+                      activeTab === "announcements"
+                        ? announcementSearchQuery
+                        : notificationSearchQuery
+                    }
+                    onChange={(e) =>
+                      activeTab === "announcements"
+                        ? setAnnouncementSearchQuery(e.target.value)
+                        : setNotificationSearchQuery(e.target.value)
+                    }
                     className={`w-full px-3 py-2 rounded ${
                       darkMode
                         ? "bg-gray-700 text-white"
@@ -411,8 +415,8 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <div className="mt-4">
-                  {(activeTab === "notifications" && filteredNotifications.length > 0 ) ? 
-                  (
+                  {activeTab === "notifications" &&
+                  filteredNotifications.length > 0 ? (
                     <ul>
                       {filteredNotifications.map((notification) => (
                         <li
@@ -429,9 +433,8 @@ export default function Dashboard() {
                         </li>
                       ))}
                     </ul>
-                  ) : 
-                  ( activeTab === "announcements" && announcements.length > 0 ) ? 
-                  (
+                  ) : activeTab === "announcements" &&
+                    filteredAnnouncements.length > 0 ? (
                     <ul>
                       {filteredAnnouncements.map((announcement) => (
                         <li
@@ -447,9 +450,14 @@ export default function Dashboard() {
                         </li>
                       ))}
                     </ul>
-                  ) :
-                  (
-                    <p className="text-center mt-4">No items found.</p>
+                  ) : (
+                    <p
+                      className={`text-center mt-4  ${
+                        darkMode ? "text-white" : "text-gray-900"
+                      }`}
+                    >
+                      No items found.
+                    </p>
                   )}
                 </div>
               </div>
