@@ -229,7 +229,7 @@ export default function Dashboard() {
               href="/"
               className={`block px-9 py-2 ${
                 darkMode
-                  ? "text-gray-300 hover:bg-gray-700"
+                  ? "text-gray-300 hover:bg-gray-800"
                   : "text-gray-700 hover:bg-gray-200"
               }`}
               onClick={(e) => e.preventDefault()}
@@ -318,7 +318,7 @@ export default function Dashboard() {
                     </div>
                     <hr className="w-full my-4 border-gray-300 dark:border-gray-600" />
                     <button
-                      className="flex items-center w-full px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 rounded-lg focus:outline-none"
+                      className="flex items-center w-full px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-800 rounded-lg focus:outline-none"
                     >
                       <FaSignOutAlt className="mr-2 h-5 w-5" />
                       Logout
