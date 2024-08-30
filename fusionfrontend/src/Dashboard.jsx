@@ -174,7 +174,7 @@ export default function Dashboard() {
       <div
         className={`bg-white dark:bg-gray-700 fixed z-30 inset-y-0 left-0 w-64 shadow-lg transform ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-300 ease-in-out overflow-y-auto scrollbar-hide`}
+        } transition-transform duration-300 ease-in-out overflow-y-auto custom-scrollbar`}
       >
         <div className="p-4">
           <h2
@@ -186,42 +186,45 @@ export default function Dashboard() {
           </h2>
         </div>
         <nav className="mt-8">
-          {modules.map((module, index) => (
-            <div key={index}>
-              <div
-                className={`flex items-center justify-between px-4 py-3 cursor-pointer ${
-                  darkMode
-                    ? "text-gray-300 hover:bg-gray-800"
-                    : "text-gray-700 hover:bg-gray-200"
-                } transition-colors duration-200`}
-                onClick={() => handleModuleClick(index)}
-              >
-                <div className="flex items-center">
-                  <span className="text-2xl mr-3">{module.icon}</span>
-                  {module.name}
-                </div>
-                {/* <span>{expandedModule === index ? "⌄" : "⌄"}</span> */}
-              </div>
-              {expandedModule === index && (
-                <div className="pl-8">
-                  {module.subsections.map((sub, subIndex) => (
-                    <a
-                      key={subIndex}
-                      href="/"
-                      className={`block px-4 py-2 ${
-                        darkMode
-                          ? "text-gray-300 hover:bg-gray-700"
-                          : "text-gray-700 hover:bg-gray-200"
-                      }`}
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      {sub}
-                    </a>
-                  ))}
-                </div>
-              )}
-            </div>
+        {modules.map((module, index) => (
+      <div key={index}>
+        <div
+          className={`flex items-center justify-between px-4 py-3 cursor-pointer ${
+            darkMode
+              ? "text-gray-300 hover:bg-gray-800"
+              : "text-gray-700 hover:bg-gray-200"
+          } transition-colors duration-500`}
+          onClick={() => handleModuleClick(index)}
+        >
+          <div className="flex items-center">
+            <span className="text-2xl mr-3">{module.icon}</span>
+            {module.name}
+          </div>
+        </div>
+        <div
+          className={`pl-8 overflow-hidden transition-all duration-700 ease-in-out`}
+          style={{
+            height: expandedModule === index ? `${module.subsections.length * 40}px` : "0px",
+            opacity: expandedModule === index ? 1 : 0,
+          }}
+        >
+          {module.subsections.map((sub, subIndex) => (
+            <a
+              key={subIndex}
+              href="/"
+              className={`block px-9 py-2 ${
+                darkMode
+                  ? "text-gray-300 hover:bg-gray-700"
+                  : "text-gray-700 hover:bg-gray-200"
+              }`}
+              onClick={(e) => e.preventDefault()}
+            >
+              {sub}
+            </a>
           ))}
+        </div>
+      </div>
+    ))}
         </nav>
       </div>
 
@@ -251,43 +254,50 @@ export default function Dashboard() {
                 Dashboard
               </h1>
             </div>
+            <div className="flex items-center gap-2.5">
             <div className="flex items-center">
-              <div
-                className="relative"
-                onMouseEnter={() => setShowUserDetails(true)}
-                onMouseLeave={() => setShowUserDetails(false)}
-              >
-                <img
-                  className="h-10 w-10 rounded-full object-cover cursor-pointer"
-                  src={rameshPic}
-                  alt="User avatar"
-                />
-                {showUserDetails && (
-                  <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 z-50">
-                    <img
-                      className="h-16 w-16 rounded-lg object-cover"
-                      src={rameshPic}
-                      alt="User avatar"
-                    />
-                    <div className="mt-2">
-                      <h2
-                        className={`text-xl font-semibold ${
-                          darkMode ? "text-white" : "text-gray-900"
-                        }`}
-                      >
-                        RAMESH BABU
-                      </h2>
-                      <p
-                        className={`text-sm ${
-                          darkMode ? "text-gray-300" : "text-gray-700"
-                        }`}
-                      >
-                        {designation}
-                      </p>
-                    </div>
+              <select className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 transition duration-150 ease-in-out text-gray-900 dark:text-gray-100">
+                <option>Student</option>
+                <option>Faculty</option>
+                <option>Admin</option>
+              </select>
+            </div>
+            <div
+              className="relative"
+              onMouseEnter={() => setShowUserDetails(true)}
+              onMouseLeave={() => setShowUserDetails(false)}
+            >
+              <img
+                className="h-10 w-10 rounded-full object-cover cursor-pointer"
+                src={rameshPic}
+                alt="User avatar"
+              />
+              {showUserDetails && (
+                <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 z-50 flex items-center flex-col">
+                  <img
+                    className="h-16 w-16 rounded-lg object-cover"
+                    src={rameshPic}
+                    alt="User avatar"
+                  />
+                  <div className="mt-2">
+                    <h2
+                      className={`text-xl font-semibold ${
+                        darkMode ? "text-white" : "text-gray-900"
+                      }`}
+                    >
+                      RAMESH BABU
+                    </h2>
+                    <p
+                      className={`text-sm ${
+                        darkMode ? "text-gray-300" : "text-gray-700"
+                      }`}
+                    >
+                      {designation}
+                    </p>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
+            </div>
               <button
                 className={`ml-4 p-2 ${
                   darkMode ? "text-white" : "text-gray-900"
@@ -318,7 +328,7 @@ export default function Dashboard() {
             } z-40 flex justify-end`}
           >
             <div
-              className={`w-full md:w-1/3 lg:w-1/4 bg-white dark:bg-gray-800 h-full overflow-y-auto shadow-lg`}
+              className={`w-full md:w-1/3 lg:w-1/3 bg-white dark:bg-gray-800 h-full overflow-y-auto shadow-lg`}
             >
               <div className="p-4">
                 <div className="flex justify-between items-center">
