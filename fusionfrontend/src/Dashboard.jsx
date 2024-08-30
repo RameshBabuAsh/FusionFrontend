@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { FaSignOutAlt } from 'react-icons/fa';
 import rameshPic from "./rameshPic.jpg";
 
 const modules = [
@@ -210,7 +211,7 @@ export default function Dashboard() {
                       href="/"
                       className={`block px-4 py-2 ${
                         darkMode
-                          ? "text-gray-300 hover:bg-gray-700"
+                          ? "text-gray-300 hover:bg-gray-800"
                           : "text-gray-700 hover:bg-gray-200"
                       }`}
                       onClick={(e) => e.preventDefault()}
@@ -253,13 +254,19 @@ export default function Dashboard() {
             </div>
             <div className="flex items-center gap-2.5">
             <div className="flex items-center">
-              <select>
-                <option>Student</option>
-                <option>Faculty</option>
-                <option>Admin</option>
-              </select>
+            <select
+              className={`border rounded-md p-2 ${
+                darkMode
+                  ? 'bg-gray-800 text-gray-200 border-gray-600'
+                  : 'bg-white text-gray-900 border-gray-300'
+              }`}
+            >
+              <option>Student</option>
+              <option>Faculty</option>
+              <option>Admin</option>
+            </select>
             </div>
-              <div
+              {/* <div
                 className="relative"
                 onMouseEnter={() => setShowUserDetails(true)}
                 onMouseLeave={() => setShowUserDetails(false)}
@@ -292,6 +299,49 @@ export default function Dashboard() {
                         {designation}
                       </p>
                     </div>
+                  </div>
+                )}
+              </div> */}
+              <div
+                className="relative"
+                onMouseEnter={() => setShowUserDetails(true)}
+                onMouseLeave={() => setShowUserDetails(false)}
+              >
+                <img
+                  className="h-10 w-10 rounded-full object-cover cursor-pointer"
+                  src={rameshPic}
+                  alt="User avatar"
+                />
+                {showUserDetails && (
+                  <div className="absolute right-0 mt-2 w-64 bg-emerald-100 dark:bg-gray-700 rounded-lg shadow-lg p-4 z-50 flex flex-col items-center">
+                    <img
+                      className="h-16 w-16 rounded-lg object-cover"
+                      src={rameshPic}
+                      alt="User avatar"
+                    />
+                    <div className="mt-2 text-center">
+                      <h2
+                        className={`text-xl font-semibold ${
+                          darkMode ? "text-white" : "text-gray-900"
+                        }`}
+                      >
+                        RAMESH BABU
+                      </h2>
+                      <p
+                        className={`text-sm ${
+                          darkMode ? "text-gray-300" : "text-gray-700"
+                        }`}
+                      >
+                        {designation}
+                      </p>
+                    </div>
+                    <hr className="w-full my-4 border-gray-300 dark:border-gray-600" />
+                    <button
+                      className="flex items-center w-full px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 rounded-lg focus:outline-none"
+                    >
+                      <FaSignOutAlt className="mr-2 h-5 w-5" />
+                      Logout
+                    </button>
                   </div>
                 )}
               </div>
@@ -337,7 +387,9 @@ export default function Dashboard() {
                     Notifications & Announcements
                   </h2>
                   <button
-                    className="text-lg"
+                    className={`text-lg ${
+                      darkMode ? "text-white" : "text-gray-900"
+                    }`}
                     onClick={() => setShowNotifications(false)}
                   >
                     ✕
