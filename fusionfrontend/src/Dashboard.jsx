@@ -283,42 +283,6 @@ export default function Dashboard() {
               <option>Admin</option>
             </select>
             </div>
-              {/* <div
-                className="relative"
-                onMouseEnter={() => setShowUserDetails(true)}
-                onMouseLeave={() => setShowUserDetails(false)}
-              >
-                <img
-                  className="h-10 w-10 rounded-full object-cover cursor-pointer"
-                  src={rameshPic}
-                  alt="User avatar"
-                />
-                {showUserDetails && (
-                  <div className="absolute right-0 mt-2 w-64 bg-emerald-100 dark:bg-gray-800 rounded-lg shadow-lg p-4 z-50 flex items-center flex-col">
-                    <img
-                      className="h-16 w-16 rounded-lg object-cover"
-                      src={rameshPic}
-                      alt="User avatar"
-                    />
-                    <div className="mt-2">
-                      <h2
-                        className={`text-xl font-semibold ${
-                          darkMode ? "text-white" : "text-gray-900"
-                        }`}
-                      >
-                        RAMESH BABU
-                      </h2>
-                      <p
-                        className={`text-sm ${
-                          darkMode ? "text-gray-300" : "text-gray-700"
-                        }`}
-                      >
-                        {designation}
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </div> */}
               <div
                 className="relative"
                 onMouseEnter={() => setShowUserDetails(true)}
