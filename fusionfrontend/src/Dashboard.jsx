@@ -186,42 +186,45 @@ export default function Dashboard() {
           </h2>
         </div>
         <nav className="mt-8">
-          {modules.map((module, index) => (
-            <div key={index}>
-              <div
-                className={`flex items-center justify-between px-4 py-3 cursor-pointer ${
-                  darkMode
-                    ? "text-gray-300 hover:bg-gray-800"
-                    : "text-gray-700 hover:bg-gray-200"
-                } transition-colors duration-200`}
-                onClick={() => handleModuleClick(index)}
-              >
-                <div className="flex items-center">
-                  <span className="text-2xl mr-3">{module.icon}</span>
-                  {module.name}
-                </div>
-                {/* <span>{expandedModule === index ? "⌄" : "⌄"}</span> */}
-              </div>
-              {expandedModule === index && (
-                <div className="pl-8">
-                  {module.subsections.map((sub, subIndex) => (
-                    <a
-                      key={subIndex}
-                      href="/"
-                      className={`block px-4 py-2 ${
-                        darkMode
-                          ? "text-gray-300 hover:bg-gray-700"
-                          : "text-gray-700 hover:bg-gray-200"
-                      }`}
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      {sub}
-                    </a>
-                  ))}
-                </div>
-              )}
-            </div>
+        {modules.map((module, index) => (
+      <div key={index}>
+        <div
+          className={`flex items-center justify-between px-4 py-3 cursor-pointer ${
+            darkMode
+              ? "text-gray-300 hover:bg-gray-800"
+              : "text-gray-700 hover:bg-gray-200"
+          } transition-colors duration-500`}
+          onClick={() => handleModuleClick(index)}
+        >
+          <div className="flex items-center">
+            <span className="text-2xl mr-3">{module.icon}</span>
+            {module.name}
+          </div>
+        </div>
+        <div
+          className={`pl-8 overflow-hidden transition-all duration-700 ease-in-out`}
+          style={{
+            height: expandedModule === index ? `${module.subsections.length * 40}px` : "0px",
+            opacity: expandedModule === index ? 1 : 0,
+          }}
+        >
+          {module.subsections.map((sub, subIndex) => (
+            <a
+              key={subIndex}
+              href="/"
+              className={`block px-9 py-2 ${
+                darkMode
+                  ? "text-gray-300 hover:bg-gray-700"
+                  : "text-gray-700 hover:bg-gray-200"
+              }`}
+              onClick={(e) => e.preventDefault()}
+            >
+              {sub}
+            </a>
           ))}
+        </div>
+      </div>
+    ))}
         </nav>
       </div>
 
@@ -318,7 +321,7 @@ export default function Dashboard() {
             } z-40 flex justify-end`}
           >
             <div
-              className={`w-full md:w-1/3 lg:w-1/4 bg-white dark:bg-gray-800 h-full overflow-y-auto shadow-lg`}
+              className={`w-full md:w-1/3 lg:w-1/3 bg-white dark:bg-gray-800 h-full overflow-y-auto shadow-lg`}
             >
               <div className="p-4">
                 <div className="flex justify-between items-center">
