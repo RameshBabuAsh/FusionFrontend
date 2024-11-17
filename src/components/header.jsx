@@ -17,6 +17,7 @@ import {
   Paper,
 } from "@mantine/core";
 import PropTypes from "prop-types";
+import { notifications } from "@mantine/notifications";
 import { setRole, setCurrentAccessibleModules } from "../redux/userslice";
 import classes from "../Modules/Dashboard/Dashboard.module.css";
 import avatarImage from "../assets/avatar.png";
@@ -44,6 +45,19 @@ function Header({ opened, toggleSidebar }) {
           },
         },
       );
+
+      notifications.show({
+        title: "Role Updated",
+        message: (
+          <Flex gap="4px">
+            <Text fz="sm">Your role has been changed to </Text>
+            <Text fz="sm" fw="500" c="dark">
+              {newRole}
+            </Text>
+          </Flex>
+        ),
+        color: "green",
+      });
       console.log(response.data.message);
       dispatch(setRole(newRole));
       dispatch(setCurrentAccessibleModules());
@@ -89,9 +103,7 @@ function Header({ opened, toggleSidebar }) {
         size="sm"
       />
       <Flex justify="space-between" align="center" h="100%">
-        <Text fz="h2" ff="monospace">
-          FUSION - IIITDMJ's ERP Portal
-        </Text>
+        <Text fz="h2">FUSION - IIITDMJ's ERP Portal</Text>
         <Flex
           justify="flex-end"
           align="center"
